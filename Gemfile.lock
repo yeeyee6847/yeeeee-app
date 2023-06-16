@@ -98,6 +98,8 @@ GEM
       reline (>= 0.3.1)
     diff-lcs (1.5.0)
     e2mmap (0.1.0)
+    erb-formatter (0.4.3)
+      syntax_tree (~> 6.0)
     erb_lint (0.3.1)
       activesupport
       better_html (>= 2.0.1)
@@ -161,6 +163,7 @@ GEM
     parallel (1.22.1)
     parser (3.2.0.0)
       ast (~> 2.4.1)
+    prettier_print (1.2.1)
     public_suffix (5.0.1)
     puma (5.6.5)
       nio4r (~> 2.0)
@@ -249,6 +252,8 @@ GEM
     sqlite3 (1.6.0-x86_64-linux)
     stimulus-rails (1.2.1)
       railties (>= 6.0.0)
+    syntax_tree (6.1.1)
+      prettier_print (>= 1.2.0)
     thor (1.2.1)
     tilt (2.0.11)
     timeout (0.3.1)
@@ -281,6 +286,7 @@ DEPENDENCIES
   bootsnap
   capybara
   debug
+  erb-formatter
   erb_lint
   hotwire-livereload (~> 1.2)
   importmap-rails
