@@ -1,0 +1,2 @@
+module SpendingTypesHelper
+end

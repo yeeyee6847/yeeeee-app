@@ -1,0 +1,120 @@
+<h1 class="mb-3 mt-3">View Monthly Usage</h1>
+
+<%= render partial: 'layouts/page_back_button', locals: { path: @yearly_usage } %>
+
+<div class="form-container">
+    <div class="form-title">Monthly Usage Information</div>
+
+    <div class="row mb-3">
+        <div class="col">
+            <%= label_tag :month_id, "Month", class: "form-label" %>
+            <%= text_field_tag :month_id, @monthly_usage.month.value, class: "form-control", disabled: true %>
+        </div>
+        <div class="col">
+            <%= label_tag :total_amount, "Total Amount", class: "form-label" %>
+            <%= text_field_tag :total_amount, number_to_currency(@monthly_usage.total_amount, precision: 2, unit: 'RM '), class: "form-control", disabled: true %>
+        </div>
+    </div>
+</div>
+
+<div class="form-container">
+    <div class="d-flex justify-content-between">
+        <div class="form-title">Daily Usage Information</div>
+        <div class="align-self-end mb-3">
+            <%= link_to (cookies[:viewmode] == "card" ? "Table View" : "Card View"), yearly_usage_monthly_usage_path(@monthly_usage, viewmode: cookies[:viewmode] == "table" ? "card" : "table") , class:"btn btn-outline-primary" %>
+            
+            <% if Date.today.year == @yearly_usage.year && Date.today.month == @monthly_usage.month.position %>
+                <%= link_to "Update Today Usage", @today_daily_usage_path , class:"btn btn-outline-primary" %>
+            <% end %>
+         </div>
+    </div>
+
+    <% if @warning_message %>
+        <div class="alert alert-warning p-2" role="alert">
+            <%= @warning_message %>
+        </div>
+    <% end %>
+
+
+    
+
+    <% unless cookies[:viewmode] == "card"  %> 
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr class="table-primary">
+                        <th scope="col" style="width: 60px;">No.</th>
+                        <th scope="col"><%= link_to "Date", yearly_usage_monthly_usage_path(sort_column: "date", sort_direction: sort_direction("date"))%></th>
+                        <th scope="col" style="width: 130px;"><%= link_to "Total Amount", yearly_usage_monthly_usage_path(sort_column: "total_amount", sort_direction: sort_direction("total_amount"))%></th>
+                        <th scope="col" style="width: 70px;">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% if @monthly_usage.daily_usages.any? %>
+                        <% @daily_usages.each_with_index do | daily_usage, index | %>
+                            <tr>
+                                <th scope="row"><%= index + 1%></th>
+                                <td><%= daily_usage.date %></td>
+                                <td style="text-align: right;"><%= number_to_currency(daily_usage.total_amount, precision: 2, unit: 'RM ') %></td>
+                                <td style="text-align: center;">
+                                    <%= link_to image_tag('edit.png', width: '20', title: 'Edit'), edit_yearly_usage_monthly_usage_daily_usage_path(@yearly_usage, @monthly_usage, daily_usage), class: "tooltips" %>
+                                    <%= link_to image_tag('view.png', width: '20', title: 'View'), yearly_usage_monthly_usage_daily_usage_path(@yearly_usage, @monthly_usage, daily_usage), class: "tooltips" %>
+                                </td>
+                            </tr>
+                        <% end %>
+                    <% else %>
+                        <tr><td colspan="4">No records found.</td></tr>
+                    <% end %>     
+            </table>
+        </div>
+    <% end %>
+
+    <% if cookies[:viewmode] == "card" %> 
+        <div class="row">
+            <% if @monthly_usage.daily_usages.any? %>
+                <% @daily_usages.each do | daily_usage | %>
+                    <div class="col-sm-3 mb-3">
+                        <div class="card" style="width: 18rem;">
+                            <div class="card-body">
+                                <h5 class="card-title"><%= daily_usage.date %></h5>
+                                <h6 class="card-subtitle text-muted"><%= daily_usage.daily_status.nil? ? "Please update daily status" : daily_usage.daily_status.value %></h6>                          
+                            </div>   
+
+                            <div class="card-header">
+                                <div class="d-flex justify-content-between">
+                                    Expense Items
+                                    <div class="align-self-end">
+                                        <%= link_to "Add", new_yearly_usage_monthly_usage_daily_usage_expense_item_path(@yearly_usage, @monthly_usage, daily_usage) , class:"btn btn-outline-primary btn-sm" %>
+                                    </div>
+                                </div>
+                                
+                            </div> 
+                                
+                            <ul class="list-group list-group-flush expense-item-card">      
+                                <% if daily_usage.expense_items.any? %>
+                                    <% daily_usage.expense_items.each do | expense_item | %>
+                                        <li class="list-group-item"><%= expense_item.expense_item %> - <%= number_to_currency(expense_item.amount, precision: 2, unit: 'RM ') %></li>                    
+                                    <% end %>
+                                <% else %>
+                                    <div class="alert alert-warning expense-item-card m-2 pt-3 text-center">Empty</div>
+                                <% end %>
+                            </ul>
+
+                            <div class="card-body">                       
+                                <h6 class="card-subtitle mb-2 text-muted">Total: <%= number_to_currency(daily_usage.total_amount, precision: 2, unit: 'RM ') %></h6>
+                                
+                                <div class="d-flex justify-content-between">
+                                    <%= link_to "Update Status", edit_yearly_usage_monthly_usage_daily_usage_path(@yearly_usage, @monthly_usage, daily_usage), class:"btn btn-outline-primary btn-sm" %>
+                                    <div class="align-self-end">
+                                        <%= link_to "View Expense Item", yearly_usage_monthly_usage_daily_usage_path(@yearly_usage, @monthly_usage, daily_usage), class:"btn btn-outline-primary btn-sm" %>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <% end %>
+            <% end %>                    
+        </div>
+    <% end %>
+
+</div>

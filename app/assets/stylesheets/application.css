@@ -14,27 +14,51 @@
  *= require_self
  */
 
- .form-container {
-    border: 1px solid black;
-    border-radius: 5px;
-    margin-bottom: 15px;
-    padding: 10px;
- }
+h1 {
+  font-size: 25px !important;
+}
 
- .form-title {
-    font-size: 25px;
-    margin-bottom: 15px;
- }
+.form-container {
+  border: 1px solid black;
+  border-radius: 5px;
+  margin-bottom: 15px;
+  padding: 10px;
+}
 
- .require-field::after {
-   content: " *";
-   color: red;
- }
+.form-title {
+  font-size: 20px;
+  margin-bottom: 15px;
+}
 
- .validation-message {
-   color: red;
- }
+.require-field::after {
+  content: " *";
+  color: red;
+}
 
- .tooltips {
+.validation-message {
+  color: red;
+}
+
+.tooltips {
   margin-right: 3px;
- }
+}
+
+.page-backbtn {
+  font-size: 18px;
+  color: black;
+}
+
+.page-backbtn:hover {
+  color: blue;
+}
+
+th a {
+  text-decoration: none;
+  color: black;
+}
+
+.expense-item-card {
+  height: 82px !important; 
+  overflow: auto; 
+  overflow-x: hidden;
+}

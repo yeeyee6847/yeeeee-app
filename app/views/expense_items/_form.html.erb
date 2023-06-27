@@ -1,0 +1,45 @@
+<%= render partial: 'layouts/page_back_button', locals: { path: cookies[:viewmode] == "card" ? yearly_usage_monthly_usage_path(@yearly_usage, @monthly_usage) : yearly_usage_monthly_usage_daily_usage_path(@yearly_usage, @monthly_usage, @daily_usage) } %>
+
+<%= form_with model: object do |form| %>
+  <div class="form-container">
+    <div class="form-title">Expense item Information</div>
+
+    <div class="mb-3">
+        <%= form.label :date, class: "form-label" %>
+        <%= form.text_field :date, value: @daily_usage.date, class: "form-control", disabled: true %>
+    </div>
+
+    <div class="mb-3">
+    <%= form.label :spending_type_id, class: "form-label require-field" %>
+    <%= form.select :spending_type_id, options_for_select(SpendingType.all.map { | object | [ object.value, object.id]}, @expense_item.spending_type_id), { prompt: 'Please Select' }, { class: @expense_item.errors.full_messages_for(:spending_type).any? ? "is-invalid form-select " : "form-select"} %>
+    <% @expense_item.errors.full_messages_for(:spending_type_id).each do |message| %>
+        <div class="validation-message"><%= message %></div>
+    <% end %>
+    </div>
+
+    <div class="mb-3">
+        <%= form.label :expense_item, class: "form-label require-field" %>
+        <%= form.text_field :expense_item, value: @expense_item.expense_item, class: @expense_item.errors.full_messages_for(:expense_item).any? ? "is-invalid form-control " : "form-control" %>
+        <% @expense_item.errors.full_messages_for(:expense_item).each do |message| %>
+            <div class="validation-message"><%= message %></div>
+        <% end %>
+    </div>
+
+    <div class="mb-3">
+        <%= form.label :remark, class: "form-label" %>
+        <%= form.text_area :remark, value: @expense_item.remark, class: "form-control" %>
+    </div>
+
+    <div class="mb-3">
+        <%= form.label :amount, class: "form-label require-field" %>
+        <%= form.number_field :amount, value: @expense_item.amount, step: '0.01', class: @expense_item.errors.full_messages_for(:amount).any? ? "is-invalid form-control " : "form-control" %>
+        <% @expense_item.errors.full_messages_for(:amount).each do |message| %>
+            <div class="validation-message"><%= message %></div>
+        <% end %>
+    </div>
+    <div class="mt-4 mb-2">
+        <%= form.submit "Submit", class: "btn btn-outline-primary" %>
+    </div>
+  </div>
+
+<% end %>

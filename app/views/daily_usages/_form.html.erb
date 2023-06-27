@@ -1,0 +1,22 @@
+<%= render partial: 'layouts/page_back_button', locals: { path: yearly_usage_monthly_usage_path(@yearly_usage, @monthly_usage) } %>
+
+<%= form_with model: object do |form| %>
+  <div class="form-container">
+    <div class="form-title">Daily Usage Information</div>
+
+    <%= form.label :date, class: "form-label" %>
+    <%= form.text_field :date, value: @daily_usage.date, class: "form-control mb-3", disabled: true %>
+
+
+    <%= form.label :daily_status_id, class: "form-label require-field" %>
+    <%= form.select :daily_status_id, options_for_select(DailyStatus.all.map { | daily_status | [ daily_status.value, daily_status.id]}, @daily_usage.daily_status_id), { prompt: 'Please Select' }, { class: @daily_usage.errors.full_messages_for(:daily_status).any? ? "is-invalid form-select " : "form-select"} %>
+    <% @daily_usage.errors.full_messages_for(:daily_status).each do |message| %>
+        <div class="validation-message"><%= message %></div>
+    <% end %>
+    
+    <div class="mt-4 mb-2">
+        <%= form.submit "Submit", class: "btn btn-outline-primary" %>
+    </div>
+  </div>
+
+<% end %>

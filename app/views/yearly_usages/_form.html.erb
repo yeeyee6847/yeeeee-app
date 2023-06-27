@@ -1,10 +1,12 @@
-<%= form_with model: @yearly_usage do |form| %>
+<%= render partial: 'layouts/page_back_button', locals: { path: yearly_usages_path } %>
+
+<%= form_with model: object do |form| %>
   <div class="form-container">
     <div class="form-title">Yearly Usage Information</div>
 
     <%= form.label :year, class: "form-label require-field" %>
-    <%= form.select :year, options_for_select(@year_dropdown, @yearly_usage.year), { prompt: 'Please Select'}, class: article.errors.full_messages_for(:year).any? ? "is-invalid form-select " : "form-select" %>
-    <% article.errors.full_messages_for(:year).each do |message| %>
+    <%= form.select :year, options_for_select(@year_dropdown, object.year), { prompt: 'Please Select'}, class: object.errors.full_messages_for(:year).any? ? "is-invalid form-select " : "form-select" %>
+    <% object.errors.full_messages_for(:year).each do |message| %>
         <div class="validation-message"><%= message %></div>
     <% end %>
 

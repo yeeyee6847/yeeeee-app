@@ -1,5 +1,58 @@
-<h1 class="mb-3 mt-3">View Yearly Usages</h1>
+<h1 class="mb-3 mt-3">View Yearly Usage</h1>
+
+<%= render partial: 'layouts/page_back_button', locals: { path: yearly_usages_path } %>
 
 <div class="form-container">
     <div class="form-title">Yearly Usage Information</div>
+
+    <div class="row mb-3">
+        <div class="col">
+            <%= label_tag :year, "Year", class: "form-label" %>
+            <%= text_field_tag :year, @yearly_usage.year, class: "form-control", disabled: true %>
+        </div>
+        <div class="col">
+            <%= label_tag :total_amount, "Total Amount", class: "form-label" %>
+            <%= text_field_tag :total_amount, number_to_currency(@yearly_usage.total_amount, precision: 2, unit: 'RM '), class: "form-control", disabled: true %>
+        </div>
+    </div>
+</div>
+
+<div class="form-container">
+    <div class="d-flex justify-content-between">
+        <div class="form-title">Monthly Usage Information</div>
+        <% if Date.today.year == @yearly_usage.year %>
+            <div class="align-self-end mb-3">
+                <%= link_to "Update Current Month Usage", @current_monthly_usage_path, class:"btn btn-outline-primary" %>
+            </div>
+        <% end %>
+    </div>
+
+
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr class="table-primary">
+                    <th scope="col" style="width: 40px;">No.</th>
+                    <th scope="col"><%= link_to "Month", yearly_usage_path(sort_column: "month_id", sort_direction: sort_direction("month_id"))%></th>
+                    <th scope="col" style="width: 130px;"><%= link_to "Total Amount", yearly_usage_path(sort_column: "total_amount", sort_direction: sort_direction("total_amount"))%></th>
+                    <th scope="col" style="width: 70px;">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% if @yearly_usage.monthly_usages.any? %>
+                    <% @monthly_usages.each_with_index do | monthly_usage, index | %>
+                        <tr>
+                            <th scope="row"><%= index + 1%></th>
+                            <td><%= monthly_usage.month.value %></td>
+                            <td style="text-align: right;"><%= number_to_currency(monthly_usage.total_amount, precision: 2, unit: 'RM ') %></td>
+                            <td style="text-align: center;">
+                                <%= link_to image_tag('view.png', width: '20', title: 'View'), yearly_usage_monthly_usage_path(@yearly_usage, monthly_usage), class: "tooltips" %>
+                            </td>
+                        </tr>
+                    <% end %>
+                <% else %>
+                    <tr><td colspan="4">No records found.</td></tr>
+                <% end %>     
+        </table>
+    </div>
 </div>
