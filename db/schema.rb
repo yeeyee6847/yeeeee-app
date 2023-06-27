@@ -10,9 +10,6 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-<<<<<<< HEAD
-ActiveRecord::Schema[7.0].define(version: 2023_06_16_111102) do
-=======
 ActiveRecord::Schema[7.0].define(version: 2023_06_20_064201) do
   create_table "daily_statuses", force: :cascade do |t|
     t.string "value"
@@ -68,7 +65,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_20_064201) do
     t.datetime "updated_at", null: false
   end
 
->>>>>>> 19208a6 (basic functiona added)
   create_table "yearly_usages", force: :cascade do |t|
     t.integer "year"
     t.decimal "total_amount", default: "0.0"
@@ -76,13 +72,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_20_064201) do
     t.datetime "updated_at", null: false
   end
 
-<<<<<<< HEAD
-=======
   add_foreign_key "daily_usages", "daily_statuses"
   add_foreign_key "daily_usages", "monthly_usages"
   add_foreign_key "expense_items", "daily_usages"
   add_foreign_key "expense_items", "spending_types"
   add_foreign_key "monthly_usages", "months"
   add_foreign_key "monthly_usages", "yearly_usages"
->>>>>>> 19208a6 (basic functiona added)
 end
