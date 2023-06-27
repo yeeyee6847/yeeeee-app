@@ -7,7 +7,5 @@ class CreateYearlyUsages < ActiveRecord::Migration[7.0]
       t.timestamps
       
     end
-
-    drop_table :your_model_names
   end
 end
