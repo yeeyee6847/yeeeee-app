@@ -1,10 +1,4 @@
 class YearlyUsage < ApplicationRecord
-<<<<<<< HEAD
-
-    
-    validates_uniqueness_of :year
-    validates :year, presence: true
-=======
     has_many :monthly_usages, dependent: :destroy
 
     validates_uniqueness_of :year
@@ -19,5 +13,4 @@ class YearlyUsage < ApplicationRecord
         end        
     end
     
->>>>>>> 19208a6 (basic functiona added)
 end
